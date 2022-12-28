@@ -1,0 +1,736 @@
+@book{01,
+  author    = {Aho, Alfred V. and Lam, Monica S. and Sethi, Ravi and Ullman,
+               Jeffrey D.},
+  title     = {Compilers: Principles, Techniques, and Tools},
+  edition   = {2},
+  year      = {2006},
+  isbn      = {0321486811},
+  publisher = {Addison-Wesley Longman Publishing Co., Inc.},
+  address   = {USA}
+}
+
+@article{02,
+  author  = {Amy, Matthew and Maslov, Dmitri and Mosca, Michele},
+  journal = {IEEE Transactions on Computer-Aided Design of Integrated Circuits
+             and Systems},
+  title   = {Polynomial-Time T-Depth Optimization of Clifford+T Circuits Via
+             Matroid Partitioning},
+  year    = {2014},
+  volume  = {33},
+  number  = {10},
+  pages   = {1476--1489},
+  doi     = {10.1109/TCAD.2014.2341953}
+}
+
+@article{03,
+  author     = {Amy, Matthew and Maslov, Dmitri and Mosca, Michele and Roetteler,
+                Martin},
+  title      = {A Meet-in-the-Middle Algorithm for Fast Synthesis of Depth-Optimal
+                Quantum Circuits},
+  year       = {2013},
+  issue_date = {June 2013},
+  publisher  = {IEEE Press},
+  volume     = {32},
+  number     = {6},
+  issn       = {0278-0070},
+  url        = {https://doi.org/10.1109/TCAD.2013.2244643},
+  doi        = {10.1109/TCAD.2013.2244643},
+  abstract   = {We present an algorithm for computing depth-optimal decompositions
+                of logical operations, leveraging a meet-in-the-middle technique to
+                provide a significant speedup over simple brute force algorithms.
+                As an illustration of our method, we implemented this algorithm and
+                found factorizations of commonly used quantum logical operations
+                into elementary gates in the ${m Clifford}{+}T$ set. In particular,
+                we report a decomposition of the Toffoli gate over the set of
+                Clifford and $T$ gates. Our decomposition achieves a total
+                $T$-depth of 3, thereby providing a 40\% reduction over the
+                previously best known decomposition for the Toffoli gate. Due to
+                the size of the search space, the algorithm is only practical for
+                small parameters, such as the number of qubits, and the number of
+                gates in an optimal implementation.},
+  journal    = {Trans. Comp.-Aided Des. Integ. Cir. Sys.},
+  month      = {jun},
+  pages      = {818-–830},
+  numpages   = {13}
+}
+
+@article{04,
+  author     = {Beauregard, Stephane},
+  title      = {Circuit for Shor's Algorithm Using 2n+3 Qubits},
+  year       = {2003},
+  issue_date = {March 2003},
+  publisher  = {Rinton Press, Incorporated},
+  address    = {Paramus, NJ},
+  volume     = {3},
+  number     = {2},
+  issn       = {1533-7146},
+  abstract   = {We try to minimize the number of qubits needed to factor an
+                integer of n bits using Shor's algorithm on a quantum computer. We
+                introduce a circuit which uses 2n + 3 qubits and 0(n3lg(n))
+                elementary quantum gates in a depth of 0(n3) to implement the
+                factorization algorithm. The circuit is computable in polynomial
+                time on a classical computer and is completely general as it does
+                not rely on any property of the number to be factored.},
+  journal    = {Quantum Info. Comput.},
+  month      = {mar},
+  pages      = {175–-185},
+  numpages   = {11},
+  keywords   = {factorization, quantum circuits, modular arithmetics}
+}
+
+@inproceedings{05,
+  author    = {Bichsel, Benjamin and Baader, Maximilian and Gehr, Timon and Vechev,
+               Martin},
+  title     = {Silq: A High-Level Quantum Language with Safe Uncomputation and
+               Intuitive Semantics},
+  year      = {2020},
+  isbn      = {9781450376136},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3385412.3386007},
+  doi       = {10.1145/3385412.3386007},
+  abstract  = {Existing quantum languages force the programmer to work at a low
+               level of abstraction leading to unintuitive and cluttered code. A
+               fundamental reason is that dropping temporary values from the
+               program state requires explicitly applying quantum operations that
+               safely uncompute these values. We present Silq, the first quantum
+               language that addresses this challenge by supporting safe,
+               automatic uncomputation. This enables an intuitive semantics that
+               implicitly drops temporary values, as in classical computation. To
+               ensure physicality of Silq's semantics, its type system leverages
+               novel annotations to reject unphysical programs. Our experimental
+               evaluation demonstrates that Silq programs are not only easier to
+               read and write, but also significantly shorter than equivalent
+               programs in other quantum languages (on average -46\% for Q\#, -38
+               \% for Quipper), while using only half the number of quantum
+               primitives.},
+  booktitle = {Proceedings of the 41st ACM SIGPLAN Conference on Programming
+               Language Design and Implementation},
+  pages     = {286–-300},
+  numpages  = {15},
+  keywords  = {Quantum Language, Semantics, Uncomputation},
+  location  = {London, UK},
+  series    = {PLDI 2020}
+}
+
+@software{06,
+  author    = {Cirq Developers},
+  title     = {Cirq},
+  month     = apr,
+  year      = 2022,
+  note      = {{See full list of authors on Github: https://github
+               .com/quantumlib/Cirq/graphs/contributors}},
+  publisher = {Zenodo},
+  version   = {v0.14.1},
+  doi       = {10.5281/zenodo.6599601},
+  url       = {https://doi.org/10.5281/zenodo.6599601}
+}
+
+@misc{07,
+  doi       = {10.48550/ARXIV.QUANT-PH/0008033},
+  url       = {https://arxiv.org/abs/quant-ph/0008033},
+  author    = {Draper, Thomas G.},
+  keywords  = {Quantum Physics (quant-ph), FOS: Physical sciences, FOS: Physical
+               sciences},
+  title     = {Addition on a Quantum Computer},
+  publisher = {arXiv},
+  year      = {2000},
+  copyright = {Assumed arXiv.org perpetual, non-exclusive license to distribute
+               this article for submissions made before January 2004}
+}
+
+@article{08,
+  author    = {Forest, Simon and Gosset, David and Kliuchnikov, Vadym and McKinnon,
+               David},
+  title     = {Exact synthesis of single-qubit unitaries over Clifford-cyclotomic
+               gate sets},
+  journal   = {J. Math. Phys.},
+  volume    = {56},
+  number    = {8},
+  pages     = {82--201},
+  year      = {2015},
+  month     = aug,
+  issn      = {0022-2488},
+  publisher = {American Institute of Physics},
+  doi       = {10.1063/1.4927100}
+}
+
+@software{09,
+  author    = {Matthew Treinish and Jay Gambetta and Paul Nation and qiskit-bot and
+               Paul Kassebaum and Diego M. Rodríguez and Salvador de la Puente
+               González and Jake Lishman and Shaohan Hu and Kevin Krsulich and Jim
+               Garrison and Luciano Bello and Jessie Yu and Manoel Marques and
+               Julien Gacon and David McKay and Juan Gomez and Lauren Capelluto and
+               Travis-S-IBM and Abby Mitchell and Ashish Panigrahi and lerongil and
+               Rafey Iqbal Rahman and Steve Wood and Toshinari Itoko and Alex
+               Pozas-Kerstjens and Christopher J. Wood and Divyanshu Singh and Drew
+               Risinger and Eli Arbel},
+  title     = {Qiskit/qiskit: Qiskit 0.39.4},
+  month     = dec,
+  year      = 2022,
+  publisher = {Zenodo},
+  version   = {0.39.4},
+  doi       = {10.5281/zenodo.7416349},
+  url       = {https://doi.org/10.5281/zenodo.7416349}
+}
+
+@misc{10,
+  title     = {Introducing quantum intermediate representation (QIR)},
+  author    = {Geller, Alan},
+  publisher = {Microsoft},
+  volume    = {Q\# Blog},
+  url       = {
+               https://devblogs.microsoft.com/qsharp/introducing-quantum-intermediate-representation-qir/
+               },
+  year      = {2020}
+}
+
+@article{11,
+  doi       = {10.22331/q-2021-04-15-433},
+  url       = {https://doi.org/10.22331%2Fq-2021-04-15-433},
+  year      = 2021,
+  month     = {apr},
+  publisher = {Verein zur Forderung des Open Access Publizierens in den
+               Quantenwissenschaften},
+  volume    = {5},
+  pages     = {433},
+  author    = {Craig Gidney and Martin Eker{\aa} },
+  title     = {How to factor 2048 bit {RSA} integers in 8 hours using 20 million
+               noisy qubits},
+  journal   = {Quantum}
+}
+
+@inproceedings{12,
+  author    = {Green, Alexander S. and Lumsdaine, Peter LeFanu and Ross, Neil J.
+               and Selinger, Peter and Valiron, Beno\^{\i}t,
+               },
+  title     = {Quipper: A Scalable Quantum Programming Language},
+  year      = {2013},
+  isbn      = {9781450320146},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/2491956.2462177},
+  doi       = {10.1145/2491956.2462177},
+  abstract  = {The field of quantum algorithms is vibrant. 
+               Still, there is currently a lack of programming languages 
+               for describing quantum computation on a practical scale, i.e., not just at the level of toy problems. 
+               We address this issue by introducing Quipper, a scalable, expressive, functional, higher-order quantum programming language. 
+               Quipper has been used to program a diverse set of non-trivial quantum algorithms, and can generate quantum gate representations using trillions of gates.
+               It is geared towards a model of computation that uses a classical computer to control a quantum device, but is not dependent on any particular model of quantum hardware. 
+               Quipper has proven effective and easy to use, and opens the door towards using formal methods to analyze quantum algorithms.
+               },
+  booktitle = {Proceedings of the 34th ACM SIGPLAN Conference on Programming Language Design and Implementation},
+  pages     = {333–342},
+  numpages  = {10},
+  keywords  = {quantum programming languages, quipper},
+  location  = {Seattle, Washington, USA},
+  series    = {PLDI '13}
+}
+
+
+
+@article{13,
+  author     = {H\"{a}ner, Thomas and Hoefler, Torsten and Troyer, Matthias},
+  title      = {Assertion-Based Optimization of Quantum Programs},
+  year       = {2020},
+  issue_date = {November 2020},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {4},
+  number     = {OOPSLA},
+  url        = {https://doi.org/10.1145/3428201},
+  doi        = {10.1145/3428201},
+  abstract   = {Quantum computers promise to perform certain computations
+                exponentially faster than any classical device. Precise control
+                over their physical implementation and proper shielding from
+                unwanted interactions with the environment become more difficult as
+                the space/time volume of the computation grows. Code optimization
+                is thus crucial in order to reduce resource requirements to the
+                greatest extent possible. Besides manual optimization, previous
+                work has adapted classical methods such as constant-folding and
+                common subexpression elimination to the quantum domain. However,
+                such classically-inspired methods fail to exploit certain
+                optimization opportunities across subroutine boundaries, limiting
+                the effectiveness of software reuse. To address this insufficiency,
+                we introduce an optimization methodology which employs annotations
+                that describe how subsystems are entangled in order to exploit
+                these optimization opportunities. We formalize our approach, prove
+                its correctness, and present benchmarks: Without any prior manual
+                optimization, our methodology is able to reduce, e.g., the qubit
+                requirements of a 64-bit floating-point subroutine by 34\texttimes{
+                }.},
+  journal    = {Proc. ACM Program. Lang.},
+  month      = {nov},
+  articleno  = {133},
+  numpages   = {20},
+  keywords   = {quantum computing, quantum circuit optimization}
+}
+
+@inproceedings{14,
+  author    = {H{\"a}ner, Thomas and Jaques, Samuel and Naehrig, Michael and
+               Roetteler, Martin and Soeken, Mathias},
+  editor    = {Ding, Jintai and Tillich, Jean-Pierre},
+  title     = {Improved Quantum Circuits for Elliptic Curve Discrete Logarithms},
+  booktitle = {Post-Quantum Cryptography},
+  year      = {2020},
+  publisher = {Springer International Publishing},
+  address   = {Cham},
+  pages     = {425--444},
+  abstract  = {We present improved quantum circuits for elliptic curve scalar
+               multiplication, the most costly component in Shor's algorithm to
+               compute discrete logarithms in elliptic curve groups. We optimize
+               low-level components such as reversible integer and modular
+               arithmetic through windowing techniques and more adaptive placement
+               of uncomputing steps, and improve over previous quantum circuits
+               for modular inversion by reformulating the binary Euclidean
+               algorithm. Overall, we obtain an affine Weierstrass point addition
+               circuit that has lower depth and uses fewer T gates than previous
+               circuits. While previous work mostly focuses on minimizing the
+               total number of qubits, we present various trade-offs between
+               different cost metrics including the number of qubits, circuit
+               depth and T-gate count. Finally, we provide a full implementation
+               of point addition in the Q{\#} quantum programming language that
+               allows unit tests and automatic quantum resource estimation for all
+               components.},
+  isbn      = {978-3-030-44223-1}
+}
+
+@article{15,
+  doi       = {10.1088/2058-9565/aaa5cc},
+  url       = {https://dx.doi.org/10.1088/2058-9565/aaa5cc},
+  year      = {2018},
+  month     = {feb},
+  publisher = {IOP Publishing},
+  volume    = {3},
+  number    = {2},
+  pages     = {20--501},
+  author    = {Thomas H{\"a}ner and Damian S Steiger and Krysta Svore and Matthias
+               Troyer},
+  title     = {A software methodology for compiling quantum programs},
+  journal   = {Quantum Science and Technology},
+  abstract  = {Quantum computers promise to transform our notions of computation
+               by offering a completely new paradigm. To achieve scalable quantum
+               computation, optimizing compilers and a corresponding software
+               design flow will be essential. We present a software architecture
+               for compiling quantum programs from a high-level language program
+               to hardware-specific instructions. We describe the necessary layers
+               of abstraction and their differences and similarities to classical
+               layers of a computer-aided design flow. For each layer of the stack
+               , we discuss the underlying methods for compilation and
+               optimization. Our software methodology facilitates more rapid
+               innovation among quantum algorithm designers, quantum hardware
+               engineers, and experimentalists. It enables scalable compilation of
+               complex quantum algorithms and can be targeted to any specific
+               quantum hardware implementation.}
+}
+
+@article{16,
+  author    = {Iten, Raban and Colbeck, Roger and Kukuljan, Ivan and Home, Jonathan
+               and Christandl, Matthias},
+  title     = {Quantum circuits for isometries},
+  journal   = {Phys. Rev. A},
+  volume    = {93},
+  number    = {3},
+  pages     = {32--318},
+  year      = {2016},
+  month     = mar,
+  issn      = {2469-9934},
+  publisher = {American Physical Society},
+  doi       = {10.1103/PhysRevA.93.032318}
+}
+
+@inproceedings{17,
+  title  = {Scaffold: Quantum Programming Language},
+  author = {Ali J Abhari and Arvin I. Faruque and Mohammad Javad Dousti and
+            Lukas Svec and Oana Catu and Amlan Chakrabati and Chen-Fu Chiang and
+            Seth Vanderwilt and John Black and Fred Chong},
+  year   = {2012},
+  url    = {https://www.cs.princeton.edu/research/techreps/TR-934-12}
+}
+
+@inproceedings{18,
+  author    = {JavadiAbhari, Ali and Patil, Shruti and Kudrow, Daniel and Heckey,
+               Jeff and Lvov, Alexey and Chong, Frederic T. and Martonosi, Margaret},
+  title     = {ScaffCC: A Framework for Compilation and Analysis of Quantum
+               Computing Programs},
+  year      = {2014},
+  isbn      = {9781450328708},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/2597917.2597939},
+  doi       = {10.1145/2597917.2597939},
+  abstract  = {Quantum computing is a promising technology for high-performance
+               computation, but requires mature toolflows that can map large-scale
+               quantum programs onto targeted hardware. In this paper, we present
+               a scalable compiler for large-scale quantum applications, and show
+               the opportunities for reducing compilation and analysis time, as
+               well as output code size. We discuss the similarities and
+               differences between compiling for a quantum computer as opposed to
+               a classical computer, and present a state-of-the-art approach for
+               compilation of classical circuits into quantum circuits. Our work
+               also highlights the importance of high-level quantum compilation
+               for logical circuit translation, quantitative analysis of
+               algorithms, and optimization of circuit lengths.},
+  booktitle = {Proceedings of the 11th ACM Conference on Computing Frontiers},
+  articleno = {1},
+  numpages  = {10},
+  keywords  = {eversible logic, quantum computation, compilers},
+  location  = {Cagliari, Italy},
+  series    = {CF '14}
+}
+
+@article{19,
+  doi       = {10.22331/q-2019-03-11-129},
+  url       = {https://doi.org/10.22331/q-2019-03-11-129},
+  title     = {Strawberry {F}ields: {A} {S}oftware {P}latform for {P}hotonic {Q}
+               uantum {C}omputing},
+  author    = {Killoran, Nathan and Izaac, Josh and Quesada, Nicol{\'{a}}s and
+               Bergholm, Ville and Amy, Matthew and Weedbrook, Christian},
+  journal   = {Quantum},
+  issn      = {2521-327X},
+  publisher = {Verein zur F{\"{o}}rderung des Open Access Publizierens in den
+               Quantenwissenschaften},
+  volume    = {3},
+  pages     = {129},
+  month     = mar,
+  year      = {2019}
+}
+
+@inproceedings{20,
+  author    = {Lattner, C. and Adve, V.},
+  booktitle = {International Symposium on Code Generation and Optimization,
+               2004. CGO 2004.},
+  title     = {LLVM: a compilation framework for lifelong program analysis \&
+               transformation},
+  year      = {2004},
+  pages     = {75--86},
+  doi       = {10.1109/CGO.2004.1281665}
+}
+
+@inproceedings{21,
+  author    = {Lattner, Chris and Amini, Mehdi and Bondhugula, Uday and Cohen,
+               Albert and Davis, Andy and Pienaar, Jacques and Riddle, River and
+               Shpeisman, Tatiana and Vasilache, Nicolas and Zinenko, Oleksandr},
+  title     = {MLIR: Scaling Compiler Infrastructure for Domain Specific Computation
+               },
+  year      = {2021},
+  isbn      = {9781728186139},
+  publisher = {IEEE Press},
+  url       = {https://doi.org/10.1109/CGO51591.2021.9370308},
+  doi       = {10.1109/CGO51591.2021.9370308},
+  abstract  = {This work presents MLIR, a novel approach to building reusable and
+               extensible compiler infrastructure. MLIR addresses software
+               fragmentation, compilation for heterogeneous hardware,
+               significantly reducing the cost of building domain specific
+               compilers, and connecting existing compilers together.MLIR
+               facilitates the design and implementation of code generators,
+               translators and optimizers at different levels of abstraction and
+               across application domains, hardware targets and execution
+               environments. The contribution of this work includes (1) discussion
+               of MLIR as a research artifact, built for extension and evolution,
+               while identifying the challenges and opportunities posed by this
+               novel design, semantics, optimization specification, system, and
+               engineering. (2) evaluation of MLIR as a generalized infrastructure
+               that reduces the cost of building compilers--describing diverse
+               use-cases to show research and educational opportunities for future
+               programming languages, compilers, execution environments, and
+               computer architecture. The paper also presents the rationale for
+               MLIR, its original design principles, structures and semantics.},
+  booktitle = {Proceedings of the 2021 IEEE/ACM International Symposium on Code
+               Generation and Optimization},
+  pages     = {2-–14},
+  numpages  = {13},
+  location  = {Virtual Event, Republic of Korea},
+  series    = {CGO '21}
+}
+
+@inproceedings{22,
+  author    = {McCaskey, Alexander and Nguyen, Thien},
+  booktitle = {2021 IEEE International Conference on Quantum Computing and
+               Engineering (QCE)},
+  title     = {A MLIR Dialect for Quantum Assembly Languages},
+  year      = {2021},
+  pages     = {255--264},
+  doi       = {10.1109/QCE52317.2021.00043}
+}
+
+@article{23,
+  author     = {Meuli, Giulia and Soeken, Mathias and Roetteler, Martin and H\"{a}
+                ner, Thomas},
+  title      = {Enabling Accuracy-Aware Quantum Compilers Using Symbolic Resource
+                Estimation},
+  year       = {2020},
+  issue_date = {November 2020},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {4},
+  number     = {OOPSLA},
+  url        = {https://doi.org/10.1145/3428198},
+  doi        = {10.1145/3428198},
+  abstract   = {Approximation errors must be taken into account when compiling
+                quantum programs into a low-level gate set. We present a
+                methodology that tracks such errors automatically and then
+                optimizes accuracy parameters to guarantee a specified overall
+                accuracy while aiming to minimize the implementation cost in terms
+                of quantum gates. The core idea of our approach is to extract
+                functions that specify the optimization problem directly from the
+                high-level description of the quantum program. Then, custom
+                compiler passes optimize these functions, turning them into
+                (near-)symbolic expressions for (1) the total error and (2) the
+                implementation cost (e.g., total quantum gate count). All
+                unspecified parameters of the quantum program will show up as
+                variables in these expressions, including accuracy parameters.
+                After solving the corresponding optimization problem, a circuit can
+                be instantiated from the found solution. We develop two prototype
+                implementations, one in C++ based on Clang/LLVM, and another using
+                the Q{\#} compiler infrastructure. We benchmark our prototypes on
+                typical quantum computing programs, including the quantum Fourier
+                transform, quantum phase estimation, and Shor's algorithm.},
+  journal    = {Proc. ACM Program. Lang.},
+  month      = {nov},
+  articleno  = {130},
+  numpages   = {26},
+  keywords   = {quantum computing, quantum programming, resource estimation,
+                approximation errors, quantum algorithms}
+}
+
+﻿@article{24,
+  author   = {Nam, Yunseong and Ross, Neil J. and Su, Yuan and Childs, Andrew M.
+              and Maslov, Dmitri},
+  title    = {Automated optimization of large quantum circuits with continuous
+              parameters},
+  journal  = {npj Quantum Information},
+  year     = {2018},
+  month    = {May},
+  day      = {10},
+  volume   = {4},
+  number   = {1},
+  pages    = {23},
+  abstract = {We develop and implement automated methods for optimizing quantum
+              circuits of the size and type expected in quantum computations that
+              outperform classical computers. We show how to handle continuous
+              gate parameters and report a collection of fast algorithms capable
+              of optimizing large-scale quantum circuits. For the suite of
+              benchmarks considered, we obtain substantial reductions in gate
+              counts. In particular, we provide better optimization in
+              significantly less time than previous approaches, while making
+              minimal structural changes so as to preserve the basic layout of
+              the underlying quantum algorithms. Our results help bridge the gap
+              between the computations that can be run on existing hardware and
+              those that are expected to outperform classical computers.},
+  issn     = {2056-6387},
+  doi      = {10.1038/s41534-018-0072-4},
+  url      = {https://doi.org/10.1038/s41534-018-0072-4}
+}
+
+@book{25,
+  place     = {Cambridge},
+  title     = {Quantum Computation and Quantum Information},
+  edition   = {10th Anniversary Edition},
+  doi       = {10.1017/CBO9780511976667},
+  publisher = {Cambridge University Press},
+  author    = {Nielsen, Michael A. and Chuang, Isaac L.},
+  year      = {2010}
+}
+
+@article{26,
+  author     = {Paetznick, Adam and Svore, Krysta M.},
+  title      = {Repeat-until-Success: Non-Deterministic Decomposition of Single-Qubit
+                Unitaries},
+  year       = {2014},
+  issue_date = {November 2014},
+  publisher  = {Rinton Press, Incorporated},
+  address    = {Paramus, NJ},
+  volume     = {14},
+  number     = {15–16},
+  issn       = {1533-7146},
+  abstract   = {We present a decomposition technique that uses non-deterministic
+                circuits to approximate an arbitrary single-qubit unitary to within
+                distance ε and requires significantly fewer non-Clifford gates than
+                existing techniques. We develop "Repeat-Until-Success" (RUS)
+                circuits and characterize unitaries that can be exactly represented
+                as an RUS circuit. Our RUS circuits operate by conditioning on a
+                given measurement outcome and using only a small number of
+                non-Clifford gates and ancilla qubits. We construct an algorithm
+                based on RUS circuits that approximates an arbitrary single-qubit
+                Z-axis rotation to within distance ε, where the number of T gates
+                scales as 1:26 log2(1/ε) - 3:53, an improvement of roughly
+                three-fold over state-of-the-art techniques. We then extend our
+                algorithm and show that a scaling of 2:4 log2(1/ε) - 3:28 can be
+                achieved for arbitrary unitaries and a small range of ε, which is
+                roughly twice as good as optimal deterministic decomposition
+                methods.},
+  journal    = {Quantum Info. Comput.},
+  month      = {nov},
+  pages      = {1277–-1301},
+  numpages   = {25},
+  keywords   = {quantum circuits, unitary decomposition}
+}
+
+@article{27,
+  author     = {Paykin, Jennifer and Rand, Robert and Zdancewic, Steve},
+  title      = {QWIRE: A Core Language for Quantum Circuits},
+  year       = {2017},
+  issue_date = {January 2017},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {52},
+  number     = {1},
+  issn       = {0362-1340},
+  url        = {https://doi.org/10.1145/3093333.3009894},
+  doi        = {10.1145/3093333.3009894},
+  abstract   = {This paper introduces QWIRE (``choir''), a language for defining
+                quantum circuits and an interface for manipulating them inside of
+                an arbitrary classical host language. QWIRE is minimal--it contains
+                only a few primitives--and sound with respect to the physical
+                properties entailed by quantum mechanics. At the same time, QWIRE
+                is expressive and highly modular due to its relationship with the
+                host language, mirroring the QRAM model of computation that places
+                a quantum computer (controlled by circuits) alongside a classical
+                computer (controlled by the host language). We present QWIRE along
+                with its type system and operational semantics, which we prove is
+                safe and strongly normalizing whenever the host language is. We
+                give circuits a denotational semantics in terms of density
+                matrices. Throughout, we investigate examples that demonstrate the
+                expressive power of QWIRE, including extensions to the host
+                language that (1) expose a general analysis framework for circuits,
+                and (2) provide dependent types.},
+  journal    = {SIGPLAN Not.},
+  month      = {jan},
+  pages      = {846–-858},
+  numpages   = {13},
+  keywords   = {quantum circuits, linear types, quantum programming languages,
+                denotational semantics}
+}
+
+@article{28,
+  doi       = {10.22331/q-2018-08-06-79},
+  url       = {https://doi.org/10.22331/q-2018-08-06-79},
+  title     = {Quantum {C}omputing in the {NISQ} era and beyond},
+  author    = {Preskill, John},
+  journal   = {Quantum},
+  issn      = {2521-327X},
+  publisher = {Verein zur F{\"{o}}rderung des Open Access Publizierens in den
+               Quantenwissenschaften},
+  volume    = {2},
+  pages     = {79},
+  month     = aug,
+  year      = {2018}
+}
+
+@article{29,
+  author   = {Markus Reiher and Nathan Wiebe and Krysta M. Svore and Dave Wecker
+              and Matthias Troyer },
+  title    = {Elucidating reaction mechanisms on quantum computers},
+  journal  = {Proceedings of the National Academy of Sciences},
+  volume   = {114},
+  number   = {29},
+  pages    = {7555--7560},
+  year     = {2017},
+  doi      = {10.1073/pnas.1619152114},
+  url      = {https://www.pnas.org/doi/abs/10.1073/pnas.1619152114},
+  eprint   = {https://www.pnas.org/doi/pdf/10.1073/pnas.1619152114},
+  abstract = {With rapid recent advances in quantum technology, we are close to
+              the threshold of quantum devices whose computational powers can
+              exceed those of classical supercomputers. Here, we show that a
+              quantum computer can be used to elucidate reaction mechanisms in
+              complex chemical systems, using the open problem of biological
+              nitrogen fixation in nitrogenase as an example. We discuss how
+              quantum computers can augment classical computer simulations used
+              to probe these reaction mechanisms, to significantly increase their
+              accuracy and enable hitherto intractable simulations. Our resource
+              estimates show that, even when taking into account the substantial
+              overhead of quantum error correction, and the need to compile into
+              discrete gate sets, the necessary computations can be performed in
+              reasonable time on small quantum computers. Our results demonstrate
+              that quantum computers will be able to tackle important problems in
+              chemistry without requirin}
+}
+
+@misc{30,
+  doi       = {10.48550/ARXIV.1608.03355},
+  url       = {https://arxiv.org/abs/1608.03355},
+  author    = {Smith, Robert S. and Curtis, Michael J. and Zeng, William J.},
+  keywords  = {Quantum Physics (quant-ph), Emerging Technologies (cs.ET),
+               Programming Languages (cs.PL), FOS: Physical sciences, FOS:
+               Physical sciences, FOS: Computer and information sciences, FOS:
+               Computer and information sciences},
+  title     = {A Practical Quantum Instruction Set Architecture},
+  publisher = {arXiv},
+  year      = {2016},
+  copyright = {arXiv.org perpetual, non-exclusive license}
+}
+
+@article{31,
+  doi       = {10.22331/q-2018-01-31-49},
+  url       = {https://doi.org/10.22331/q-2018-01-31-49},
+  title     = {Project{Q}: an open source software framework for quantum computing},
+  author    = {Steiger, Damian S. and H{\"{a}}ner, Thomas and Troyer, Matthias},
+  journal   = {Quantum},
+  issn      = {2521-327X},
+  publisher = {Verein zur F{\"{o}}rderung des Open Access Publizierens in den
+               Quantenwissenschaften},
+  volume    = {2},
+  pages     = {49},
+  month     = jan,
+  year      = {2018}
+}
+
+@inproceedings{32,
+  author    = {Svore, Krysta and Geller, Alan and Troyer, Matthias and Azariah,
+               John and Granade, Christopher and Heim, Bettina and Kliuchnikov,
+               Vadym and Mykhailova, Mariia and Paz, Andres and Roetteler, Martin},
+  title     = {Q\#: Enabling Scalable Quantum Computing and Development with a
+               High-Level DSL},
+  year      = {2018},
+  isbn      = {9781450363556},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3183895.3183901},
+  doi       = {10.1145/3183895.3183901},
+  abstract  = {Quantum computing exploits quantum phenomena such as superposition
+               and entanglement to realize a form of parallelism that is not
+               available to traditional computing. It offers the potential of
+               significant computational speed-ups in quantum chemistry, materials
+               science, cryptography, and machine learning.The dominant approach
+               to programming quantum computers is to provide an existing
+               high-level language with libraries that allow for the expression of
+               quantum programs. This approach can permit computations that are
+               meaningless in a quantum context; prohibits succint expression of
+               interaction between classical and quantum logic; and does not
+               provide important constructs that are required for quantum
+               programming.We present Q\#, a quantum-focused domain-specific
+               language explicitly designed to correctly, clearly and completely
+               express quantum algorithms. Q\# provides a type system; a tightly
+               constrained environment to safely interleave classical and quantum
+               computations; specialized syntax; symbolic code manipulation to
+               automatically generate correct transformations of quantum
+               operations; and powerful functional constructs which aid
+               composition.},
+  booktitle = {Proceedings of the Real World Domain Specific Languages Workshop
+               2018},
+  articleno = {7},
+  numpages  = {10},
+  keywords  = {functional programming, quantum computing, domain specific
+               language},
+  location  = {Vienna, Austria},
+  series    = {RWDSL2018}
+}
+
+@article{33,
+  title     = {Quantum computing enhanced computational catalysis},
+  author    = {von Burg, Vera and Low, Guang Hao and H\"aner, Thomas and Steiger,
+               Damian S. and Reiher, Markus and Roetteler, Martin and Troyer,
+               Matthias},
+  journal   = {Phys. Rev. Res.},
+  volume    = {3},
+  issue     = {3},
+  pages     = {33--55},
+  numpages  = {16},
+  year      = {2021},
+  month     = {Jul},
+  publisher = {American Physical Society},
+  doi       = {10.1103/PhysRevResearch.3.033055},
+  url       = {https://link.aps.org/doi/10.1103/PhysRevResearch.3.033055}
+}
+

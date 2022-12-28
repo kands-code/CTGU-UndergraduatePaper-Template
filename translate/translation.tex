@@ -1,0 +1,68 @@
+\documentclass{ctgu-trans}
+
+% 论文标题 使用 vspace*{} 减少顶部空白
+% 手动指定 黑体 粗体
+\title{\vspace*{-25mm}{\hei\bfseries XXXXXXXXXXX}}
+% 每一位作者 以及各自的机构和邮箱
+\author{%
+        David Ittah \\
+        {\small ETH Zurich} \\
+        {\small \href{mailto:david.ittah@mail.mcgill.ca}
+            {david.ittah@mail.mcgill.ca}}
+    \and
+        Thomas H\"aner \\
+        {\small Microsoft Quantum} \\
+        {\small \href{mailto:thhaner@microsoft.com}
+        {thhaner@microsoft.com}}
+    \and
+        Vadym Kliuchnikov \\
+        {\small Microsoft Quantum} \\
+        {\small \href{mailto:v.kliuchnikov@gmail.com}
+        {v.kliuchnikov@gmail.com}}
+    \and
+        % 大括号是为了分隔字符 避免连字
+        Torsten Hoef{}ler \\
+        {\small ETH Zurich} \\
+        {\small \href{mailto:htor@inf.ethz.ch}
+        {htor@inf.ethz.ch}}
+}
+% 不显示时间
+\date{}
+
+\addbibresource{refs.bib}
+
+\usepackage{blindtext}
+
+\begin{document}
+
+% 自定义命令 格式
+\newcommand{\zhaiyao}[1]{{\zihao{5}{\hei{摘要：}}
+			\textnormal{#1}}}
+\newcommand{\guanjianci}[1]{{\zihao{5}{\hei{关键词：}}
+			\textnormal{#1}}}
+% 一些数学符号
+\newcommand{\bra}[1]{\left\langle #1 \right\vert}
+\newcommand{\ket}[1]{\left\vert #1 \right\rangle}
+\newcommand{\abs}[1]{\left\vert #1 \right\vert}
+\newcommand{\norm}[1]{\abs{\abs{#1}}}
+
+% 显示论文标题 作者 以及 时间 (如果有的话)
+\maketitle
+
+% 由于模板要求 需要手动调整摘要格式
+% 大括号后的百分号是为了避免额外空格
+\zhaiyao{%
+	\blindtext
+}
+
+\guanjianci{\blindtext}
+
+\section{前言}
+
+\blindtext
+
+% 打印参考文献
+\nocite{*}
+\printbibliography[title=外文著录]
+
+\end{document}

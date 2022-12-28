@@ -1,0 +1,57 @@
+\documentclass{ctgu-essay}
+
+% used for testing
+\usepackage{blindtext}
+
+\addbibresource{refs.bib}
+
+\begin{document}
+
+%%%%%%%%%%%
+% 设置内容 %
+%%%%%%%%%%%
+
+\include{cover.tex}
+\include{anounce.tex}
+\include{abstract.tex}
+
+\fancyhead{}
+\fancyhead[CO]{\leftmark}
+\fancyhead[CE]{三峡大学本科生学位论文}
+\tableofcontents
+
+\clearpage
+\pagenumbering{arabic}
+\fancyfoot[CO,CE]{\thepage}
+\setcounter{page}{1}
+
+%%%%%%%%%%%
+% 正文内容 %
+%%%%%%%%%%%
+
+\section{你好}
+
+\subsection{你真好}
+
+好得不得了
+
+\subsubsection{你是好人}
+
+\newpage
+
+\section{你好}
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[scale=5]{pics/fig05.jpg}
+%     \caption{\small 测试文字}
+%     \label{fig:01}
+% \end{figure}
+
+\clearpage
+
+\nocite{*}
+\addcontentsline{toc}{section}{参考文献}
+\printbibliography[title=参考文献]
+
+\end{document}

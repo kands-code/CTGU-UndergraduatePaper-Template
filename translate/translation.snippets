@@ -1,0 +1,462 @@
+<@@pygmented@display@0
+,lang=llvm.mir
+^^I^^I^^Iif (cond)
+^^I^^I^^Ix = 6
+^^I^^I^^Ielse
+^^I^^I^^Ix = 4
+^^I^^I^^Iy = x * 2
+>@@pygmented@display@0
+<@@pygmented@display@1
+,lang=llvm.mir
+^^I^^I^^Iif (cond)
+^^I^^I^^Ix1 = 6
+^^I^^I^^Ielse
+^^I^^I^^Ix2 = 4
+^^I^^I^^Ix3 = phi(x1, x2)
+^^I^^I^^Iy1 = x3 * 2
+>@@pygmented@display@1
+<@@pygmented@display@2
+,language=LLVM
+func @mod(%a: i64, %N：i64) -> i64 {
+%cond_0 = cmpi "uge", %a, %N : i64
+cond_br %cond_0, ^while(%a: i64), ^ret(%a: i64)
+
+^while(%a_0: i64):
+%a_1 = subi %a_0, %N : i64
+
+%cond_1 = cmpi "uge", %a_1, %N : i64
+cond_br %cond_1, ^while(%a_1: i64), ^ret(%a_1: i64)
+
+^ret(%res: i64):
+return %res : i64
+}
+\end{lstlisting}
+\caption{\small 在 MLIR 中实现取模函数}
+\label{fig:c01}
+\end{figure}
+
+MLIR 的另一个优点是它能够表示分层的代码。
+操作可以定义{\fangsong 区域}，这些区域本身包含其他操作，允许任意嵌套。
+MLIR 中的一个函数（例如第1行的 \verb|func @mod|）就是这样一个操作，
+它有一个包含函数主体的单独嵌套区域（第2--12行）。
+因此，例如循环嵌套不需要通过块和分支表示为线性化的控制流，
+但如果更合适的话，可以使用嵌套的循环操作。
+affine 方言广泛使用了这一点，我们将在后面看到这对资源估计有什么好处（见第5.4节）。
+下面的代码列表说明了线性化控制流（左）和结构化控制流（右）之间的差异，
+省略了一些计算循环条件的模板代码以突出结构上的差异。
+
+\begin{figure}[h]
+^^I\centering
+^^I\begin{tabular}{m{0.4\textwidth}<{\centering}
+^^I^^Im{0.05\textwidth}<{\centering}
+^^I^^Im{0.4\textwidth}<{\centering}}
+^^I^^I\begin{lstlisting}[language=LLVM]
+%i = constant 0 : index
+br ^header
+^header:
+    cond_br %loop_cond, ^body, ^exit
+^body:
+    cond_br %if_cond, ^true, ^false
+^true:
+    ...
+    br ^more_body
+^false:
+    ...
+    br ^more_body
+^more_body:
+    br ^header
+^exit:
+        \end{lstlisting} & $\displaystyle\Longleftrightarrow$ &
+^^I^^I\begin{lstlisting}[language=LLVM]
+scf.for %i = 0 to 100 {
+    scf.if %if_cond {
+        ...
+    } else {
+        ...
+    }
+}
+        \end{lstlisting}
+^^I\end{tabular}
+\end{figure}
+
+在 MLIR 中，有几种转换机制可用。
+每个操作都可以实现专门的钩子，用于规范化和折叠的目的。
+DAG-to-DAG 模式改写器简化了转换的实现，
+可以表示为用一个 DAG 模式简单替换另一个 DAG 模式。
+一个 DAG 模式由一组操作构成，
+这些操作通过值的使用（通过参数）和它们的定义（通过返回值）连接起来，
+即所谓的 def-use 链（例如，图 \ref{fig:c01} 中的操作 \verb|subi|（第6行）
+和 \verb|cmpi|（第8行）是通过值 \verb|%a_1| 的 def-use 链连接的）。
+然后，模式重写器可以通过遍历 IR 中的 def-use 链来识别模式，并对任何匹配进行相应的转换。
+除了模式重写框架，还可以编写一般的操作传递，任意修改一个操作和所有嵌套的操作。
+最后，还提供了进一步的基础设施来简化方言的降低和类型转换。
+
+\subsection{量子计算}
+
+\subsubsection*{量子态}
+
+经典比特对应在量子中是量子比特，或称 qubit。
+经典比特在任何时候都处于两种状态之一，
+而量子比特则处于两个基态的复合叠加中，
+即 $\ket{0}$ 和 $\ket{1}$，分别对应 0 和 1。
+量子比特的态 $\ket{\psi}$ 可以记为
+
+\[
+^^I\ket{\psi} = \alpha_0 \ket{0} + \alpha_1 \ket{1}
+\]
+其中 $\alpha_0,\ \alpha_1 \in \mathbb{C}$ 是复数，称为概率幅，
+其满足 $\abs{\alpha_0}^2 + \abs{\alpha_1}^2 = 1$。
+正如其名称所表示的，这些复数和概率相关。
+也就是说，测量一个量子比特产生一个等于 0 或 1 的经典位，
+概率分别为 $p = \abs{\alpha_0}^2$ 或 $\abs{\alpha_1}^2 = 1 - p$。
+测量也将使得态坍缩到所观察到的结果上，
+即测量后，状态将变为是 $\ket{0}$ 或 $\ket{1}$。
+
+$n$ 个量子比特的量子态 $\ket{\phi}$ 可以记为 $2^n$ 个 n 比特串的叠加
+
+\[
+^^I\ket{\phi} = \alpha_0 \underbrace{\ket{0 \cdots 0}}_{n}
+^^I+ \cdots + \alpha_{2^n - 1} \underbrace{\ket{1 \cdots 1}}_{n}
+\]
+其中概率幅依旧满足归一性，即 $\sum_i{\abs{\alpha_i}^2} = 1$。
+通常，n 比特串会被表示为整数，所以结果可记为
+
+\[
+^^I\ket{\phi} = \sum_i{\alpha_i \ket{i}}
+\]
+
+测量所有 n 个量子比特会使得态有 $p_i = \abs{\alpha_i}^2$ 的概率坍缩为 $\ket{i}$，
+并且结果为 $i$
+
+与经典比特的状态相比，由于不可克隆定理\cite[Box 12.1]{25}，通常量子态不能被复制。
+具体来说，该定理意味着存在着非幺正算符（见下文）$U$，
+使得对于所有态 $\ket{\phi}$ 存在 $U \ket{\phi} \ket{0} = \ket{\phi} \ket{\phi}$。
+
+\subsubsection*{量子操作}
+
+与经典计算机类似，量子计算机的状态可以通过对量子比特的操作来改变。
+这些操作可以表示为酉矩阵\footnote{
+^^I一个矩阵 $U$ 是幺正的，其中 $U^{\dagger} U = U U^{\dagger} = \mathds{1}$
+} $U \in \mathbb{C}^{2^n \times 2^n}$，
+应用一个用矩阵表示为 $U$ 的量子操作后的状态可以表示为
+
+\[
+^^I\ket{\phi^{\prime}} = U \ket{\phi}
+\]
+其中 $\ket{\phi}$ 是被表示为列向量的概率幅
+$\left( \alpha_0,\ \cdots,\ \alpha_{2^n - 1} \right)^T$，
+然后左乘上矩阵 $U$。逆操作是操作的哈密顿伴随（共轭转置），被记为 $U^{\dagger}$。
+操作是一个自伴随矩阵\footnote{
+^^I称一个矩阵 $U$ 是自伴随的，如果 $U = U^{\dagger}$
+}，这种情况经常出现在优化技术中。
+
+\begin{figure}[h]
+^^I\centering
+^^I\begin{equation*}
+^^I^^I\begin{gathered}
+^^I^^I^^IX = \begin{pmatrix}
+^^I^^I^^I^^I0 & 1 \\
+^^I^^I^^I^^I1 & 0
+^^I^^I^^I\end{pmatrix}\qquad
+^^I^^I^^IY = \begin{pmatrix}
+^^I^^I^^I^^I0          & -\mathbf{i} \\
+^^I^^I^^I^^I\mathbf{i} & 0
+^^I^^I^^I\end{pmatrix}\qquad
+^^I^^I^^IZ = \begin{pmatrix}
+^^I^^I^^I^^I1 & 0  \\
+^^I^^I^^I^^I0 & -1
+^^I^^I^^I\end{pmatrix} \\
+^^I^^I^^IH = \dfrac{1}{\sqrt{2}}\begin{pmatrix}
+^^I^^I^^I^^I1 & 1  \\
+^^I^^I^^I^^I1 & -1
+^^I^^I^^I\end{pmatrix}\qquad
+^^I^^I^^IS = \begin{pmatrix}
+^^I^^I^^I^^I1 & 0                               \\
+^^I^^I^^I^^I0 & \mathbf{e}^{\mathbf{i} \pi / 2}
+^^I^^I^^I\end{pmatrix}\qquad
+^^I^^I^^IT = \begin{pmatrix}
+^^I^^I^^I^^I1 & 0                               \\
+^^I^^I^^I^^I0 & \mathbf{e}^{\mathbf{i} \pi / 4}
+^^I^^I^^I\end{pmatrix} \\
+^^I^^I^^IR(\theta) = \begin{pmatrix}
+^^I^^I^^I^^I1 & 0                              \\
+^^I^^I^^I^^I0 & \mathbf{e}^{\mathbf{i} \theta}
+^^I^^I^^I\end{pmatrix}\qquad
+^^I^^I^^IRz(\theta) = \mathbf{e}^{-\mathbf{i} \theta Z / 2}
+^^I^^I^^I= \begin{pmatrix}
+^^I^^I^^I^^I\mathbf{e}^{-\mathbf{i} \theta / 2} & 0                                  \\
+^^I^^I^^I^^I0                                   & \mathbf{e}^{\mathbf{i} \theta / 2}
+^^I^^I^^I\end{pmatrix} \\
+^^I^^I^^I\textnormal{CX} = \left( \mathds{1} - \ket{1} \bra{1} \right) \otimes \mathds{1}
+^^I^^I^^I+ \ket{1} \bra{1} \otimes X = \begin{pmatrix}
+^^I^^I^^I^^I1 & 0 & 0 & 0 \\
+^^I^^I^^I^^I0 & 1 & 0 & 0 \\
+^^I^^I^^I^^I0 & 0 & 0 & 1 \\
+^^I^^I^^I^^I0 & 0 & 1 & 0
+^^I^^I^^I\end{pmatrix}
+^^I^^I\end{gathered}
+^^I\end{equation*}
+^^I\caption{\small
+^^I常见的单量子比特逻辑门以及多量子比特逻辑门。
+^^I$Rx$ 以及 $Ry$（不在图中）与 $Rz$ 的定义类似，
+^^I其中 $Rx(\theta) = \mathbf{e}^{-\mathbf{i} \theta X / 2}$
+^^I并且 $Ry(\theta) = \mathbf{e}^{-\mathbf{i} \theta Y / 2}$。
+^^I展示的这一组逻辑门是通用门组
+^^I$\left\lbrace \textnormal{CX},\ H,\ S,\ T \right\rbrace$ 的超集。
+^^I}
+^^I\label{fig:02}
+\end{figure}
+
+图 \ref{fig:02} 显示了几个常见的单比特门，
+如阿达马门 $H$，泡利 $X$，$Y$，$Z$ 门，以及 $T$ 和 $S$ 门。
+此外，对于旋转门$R$，$Rx$，$Ry$，$Rz$，
+我们使用 Nielsen 和 Chuang 的标准定义\cite[Exercise 4.1]{25}。
+许多重要的多量子比特门是单量子比特门的受控版本，
+它只在所有控制量子比特等于 $\ket{1}$ 的子空间上应用单量子比特门。
+一个 n 级控制的单量子位门 $U$ 可写为
+
+\[
+^^I^{c}U = \left( \mathds{1} - \ket{1 \cdots 1} \bra{1 \cdots 1} \right)
+^^I\otimes \mathds{1} + \ket{1 \cdots 1} \bra{1 \cdots 1} \otimes U
+\]
+其中 $\otimes$ 是克罗内克内积，并且 $\ket{i}\bra{i}$ 表示在 $\ket{i}$ 上的投影。
+例如，受控非门操作（或者 CNOT / CX）是一个受控 $X$ 门，可以在图 \ref{fig:02} 中看见。
+
+一组量子逻辑门 $\mathcal{G}$ 被称为是{\fangsong 通用的}，
+如果对任意酉矩阵 $U \in 2^n \times 2^n$ 以及精度参数 $\epsilon$，
+存在一个有限的门序列 $S = G_m \dots G_2 G_1$，
+其中 $G_i \in \mathcal{G}$，
+使得 $\max_{\ket{\psi}}\norm{(S - U) \ket{\psi}} \le \epsilon$。
+即 $\mathcal{G}$ 可以用任意精度来近似 $U$。
+一个常见的通用门组是 Clifford+T 集合
+$\left\lbrace \textnormal{CNOT},\ H,\ S,\ T \right\rbrace$
+
+\subsubsection*{执行模型}
+
+我们使用经典 ``主机'' 与量子协处理器或量子处理单元（QPU）相结合的量子计算模型，
+并可进行双向实时通信。QPU必须能够（至少）支持状态准备，一个通用门组和测量。
+而一个量子程序由经典和量子指令组合组成。
+在程序的每一步，经典主机可以将量子指令序列发送到量子协处理器上执行。
+管理和与量子协处理器通信的责任落在了量子运行环境（RTE）上，特别是像量子比特分配这样的任务。
+因此，在本文中提出到编译过程没有考虑量子存储器管理的复杂性。
+量子操作的序列可以被看作是类似于经典逻辑电路的量子电路。
+一旦电路被执行，协处理器可以将测量结果返回给经典主机，
+后者也可以使用这些结果来改变执行路径。
+
+为了优化，我们将一个程序的生命周期分为两个阶段，定义如下：
+
+\begin{itemize}
+^^I\item {\bfseries\heiti 编译时：}
+^^I      程序是以完全静态的方式进行分析和转换的，不需要执行经典或量子程序的任何部分。
+^^I      特别是，在这个阶段，程序输入是不可用的。
+^^I\item {\bfseries\heiti 运行时：}
+^^I      严格来说，这个术语可能被用来描述程序在量子硬件上的执行阶段。
+^^I      然而，在优化的背景下，我们也认为任何电路生成阶段都是在运行时。
+^^I      原因是这种阶段已经执行了 "运行时 "操作，
+^^I      如经典程序执行，控制流解析和程序输入传播，明显区别于上述的静态情况。
+^^I      在eDSL中执行电路生成的经典元程序的执行，就属于这一类。
+\end{itemize}
+
+\section{量子编程的技术栈}
+
+图 \ref{fig:01} 的（a）中展示了所谓的量子编程技术栈的概况。
+我们设想高级量子编程语言在所谓的输入方言（图中标有 Quantum）中被翻译成 QIRO，
+然后可以降低到优化方言（标有 QuantumSSA）。
+这两种方言的代码例子可以在图 \ref{fig:01} 的（b）和图 \ref{fig:03} 中找到。
+我们专门设计了优化方言，以实现量子-经典的共同优化，
+并通过在 IR 中明确展现数据依赖性来实现编译器组件的最大复用。
+除了针对量子的优化方法，IR 还可以使用经典的转换方法进行优化，
+如内联，循环展开和普通子表达式消除（CSE）。
+在最后一个特定目标的步骤中，优化方言可以被降低，
+例如，用于模拟的 LLVM IR\cite{20}，在硬件上执行，或资源估计。
+
+对 QIRO 的设计遵循以下原则：
+
+\begin{enumerate}
+^^I\item 将现有的编程语言降低到 IR 的方法必须是简单的。
+^^I\item IR 必须能够支持最先进的优化算法（量子和经典）。
+^^I\item IR 应该能够复用现有的编译基础设施。
+\end{enumerate}
+
+我们提出了两种 MLIR 方言，以便将第一种要求与其他两种要求区分开来，它们的性质是完全不同的。
+正如它们的名字所示，输入方言的目标是使现有的量子编程语言能够简单有效地降低，
+而优化方言的目标是使现有的基础设施得到最大限度的复用，并支持广泛的优化。
+从结构上看，这两种方言主要在量子操作与量子比特交互的语义上有所不同。
+
+输入方言使用{\fangsong 内存语义}表示量子比特。
+也就是说，分配量子比特会返回对一个量子比特的唯一引用。
+作用于这种量子比特引用的量子操作不消耗量子比特的值，并通过副作用影响量子状态。
+Qubit 寄存器的功能与此类似，即分配返回一个对新分配的量子比特的寄存器的唯一引用。
+使用内存语义的一个直接好处是，IR 的结构本身就可以防止程序违反不可克隆定理。
+由于每个操作总是通过副作用与处理器的状态相互作用，
+所以根本没有任何机制可以让量子状态被复制。
+然而，我们注意到，不可能静态地保证同一个量子比特不被多次传递给同一个量子操作（从而被别名），
+因为我们允许使用动态索引的量子寄存器访问。
+这种情况可以通过在运行时的代码来解决，例如通过 RTE 来执行这种检查。
+
+相比之下，优化方言可以被看作是模拟{\fangsong 值语义}的 SSA 的量子版本。
+我们的意思是，量子操作消耗并返回量子态的值，而不是通过副作用对量子比特进行操作。
+这些值代表了量子程序执行中某一特定时间步的量子比特的状态。
+但是请注意，这种量子态的值永远不会像在经典环境中那样被计算出来，
+相反，它们只是为 SSA 的目标提供一个表示。
+以这种方式使用 SSA 具有与其在经典中有类似的好处：
+（1）数据流图在 IR 中是明确的，
+（2）这种方言中的量子操作是没有副作用的，
+有利于优化（例如，消除返回值从未被消耗的操作）。
+
+\section{量子方言的详细介绍}
+
+在这一节中，我们将详细讨论这两种的方言，
+包括如何将现有的量子编程语言映射到输入方言，
+以及如何将输入方言降低到优化方言。
+
+\subsection{描述量子程序}
+
+在 MLIR 中，所有的操作都被分组为名为模块独立的单元，允许编译器并行地处理这些操作。
+而后，一个模块的区域通常由子程序定义和外部声明组成。
+我们对经典子程序和量子子程序进行区分。
+纯粹的经典子程序可以放在 MLIR 函数内，
+而量子程序段可以放在称为{\fangsong 电路}的量子函数内。
+
+量子方言有一个强大的指令集，可以与量子协处理器进行交互。
+这个指令集由通用量子计算的所有组件组成：
+量子比特初始化为已知状态，
+量子比特读出（测量），
+以及通用门组（一组幺正变换，所有变换都可以任意精度近似）。
+
+此外，为了在更高的抽象层次上表示操作，
+我们的 IR 还具有元操作（有时被称为 functor\cite{32}）的特点，以某种方式修改现有的操作。
+除非目标架构本身支持，否则在量子处理器上执行之前，
+这些操作将通过标准或用户定义的分解进程来降低。
+
+\subsection{类型}
+
+QIRO定义了量子比特和量子寄存器类型，用于表示所有的量子数据。
+更高层次的类型抽象，如整数、定点数等，可以在这些基本类型的基础上实现。
+每种量子方言都有自己版本的量子比特和寄存器类型，
+这反映了两种方言的值语义和内存语义之间的区别。
+我们引入了几个额外的类型来表示量子操作本身：
+一个用于本地单量子比特和双量子比特门的基本类型，
+一个用于电路的类型，以及一个用于受控操作的类型（包含基本操作类型和受控量子比特的数量）。
+我们在表 \ref{tab:01} 中提供了完整的类型列表。
+输入方言（Quantum）的缩写为 \verb|q.|，
+优化方言（QuantumSSA）的缩写是 \verb|qs.|。
+
+\begin{table}[h]
+^^I\centering
+^^I\begin{tabular}{lcc}
+^^I^^I\textbf{\heiti 类型} & \textbf{Quantum}   & \textbf{QuantumSSA}      \\
+^^I^^I\hline
+^^I^^I量子比特               & \verb|!q.qubit|    & \verb|!qs.qstate|        \\
+^^I^^I量子比特寄存器            & \verb|!q.qureg<n>| & \verb|!qs.rstate<n>|     \\
+^^I^^I\hline
+^^I^^I原生单量子比特门           &                    & \verb|!qs.u1|            \\
+^^I^^I原生双量子比特门           &                    & \verb|!qs.u2|            \\
+^^I^^I电路                 &                    & \verb|!qs.circ|          \\
+^^I^^I受控操作               &                    & \verb|!qs.cop<n, baseT>|
+^^I\end{tabular}
+^^I\caption{\small 量子方言中定义的类型}
+^^I\label{tab:01}
+
+^^I\begin{center}
+^^I^^I\small
+^^I^^In --- 寄存器大小 / 受控量子比特数量 \\
+^^I^^IbaseT --- 基本操作的类型
+^^I\end{center}
+\end{table}
+
+\subsection{操作}
+
+量子操作可以大致分为四类：
+量子比特管理，原生门，元操作和用户自定义操作。
+表 \ref{tab:02} 中可以看到概述
+
+\begin{table}[h]
+^^I\centering
+^^I\footnotesize
+^^I\begin{tabular}{llll}
+^^I^^I\textbf{\heiti 量子比特管理}             & \textbf{\heiti 原生门}                 & \textbf{\heiti 元操作}       & \textbf{\heiti 用户自定义操作}         \\
+^^I^^I\verb|%qb = alloc|                 & \verb|H/X/Y/Z/S/T %q|               & \verb|%op = ctrl %op, %q| & \verb|circ @name(%arg..) {...}| \\
+^^I^^I\verb|%r = allocreg(n)|            & \verb|R/Rx/Ry/Rz(|$\phi$\verb|) %q| & \verb|%op = adj %op|      & \verb|call @name(%arg..)|       \\
+^^I^^I\verb|free %qb|                    & \verb|CX %qb, %q|                   &                           & \verb|%circ = getval @name|     \\
+^^I^^I\verb|freereg %r|                  & \verb|SWAP %qb, %qb|                &                           & \verb|apply %circ(%arg..)|      \\
+^^I^^I\verb|%m = meas %q|                &                                     &                           &                                 \\
+^^I^^I\verb|%qb.., %r = extract %r[i..]| &                                     &                           &                                 \\
+^^I^^I\verb|%r = combine %r[i..], %qb..| &                                     &                           &
+^^I\end{tabular}
+^^I\caption{\small 由量子方言定义的操作（省略方言前缀和类型）}
+^^I\label{tab:02}
+
+^^I\begin{center}
+^^I^^I\small
+^^I^^I\verb|%qb| --- 量子比特值，\verb|%r| --- 寄存器值，
+^^I^^I\verb|%q| --- 其他量子数据类型的值 \\
+^^I^^I\verb|%op| --- 任意量子操作，\verb|@name| --- 电路符号，
+^^I^^I\verb|%circ| --- 电路值 \\
+^^I^^I\verb|n|，\verb|i| --- 整数，$\phi$ --- 浮点数，
+^^I^^I\verb|%arg| --- 任意值
+^^I\end{center}
+\end{table}
+
+量子比特和寄存器被分配，并使用适当的操作初始化到 $\ket{0}$ 状态。
+由于空间限制或其他原因造成的分配错误，将由运行时环境来处理。
+为了重新初始化（或重置）一个量子比特，可以同时执行测量和条件性位翻转。
+请注意，量子比特资源必须被显式释放，
+这使得我们可以强制要求量子资源在释放后不得被使用，
+因为释放操作作为量子状态值的回收站。
+测量操作返回一个经典的比特值或其数组，
+这取决于输入是一个量子比特还是一个寄存器。
+请注意，默认情况下，测量是在Z轴上进行的。
+
+文中常用的单比特和双比特门被作为原生门操作提供，并且可以直接扩展门库。
+所有原生门（不包括 \verb|SWAP|）都被重载，以接受量子比特和寄存器作为其目标。
+后者可以被解释为一个 \verb|foreach| 循环，
+这意味着该门被应用于给定寄存器内的所有量子比特。
+旋转门还接受一个连续的角度参数，作为常数（操作属性）或变量（SSA 值）。
+所有的自反门都有哈密顿特性，这在窥孔优化中被使用。
+
+由于目前 MLIR 的设计不允许操作直接作用于其他操作，
+元操作反而作用于{\fangsong 代表}量子指令的 SSA 值。
+这些值可以通过忽略目标量子比特操作数从本地门获得，
+而这些操作数必须传递给元操作。
+多个元操作也可以通过只向最后一个元操作提供目标量子比特操作数而被链起来。
+
+电路作为 ``量子函数'' 行事，因其形成了一组操作（量子和经典），
+这些操作只能访问作为函数参数提供的值和内部创建的值。
+为了实现最大的灵活性，电路被允许接受和返回任何类型的值。
+有两种方法可以调用一个量子电路。
+一种是通过电路名称直接调用，另一种是通过生成的电路值间接应用。
+间接的电路应用是为那些被元操作修改过的电路准备的。
+下面的代码列表说明了这两种结构的使用。
+
+\begin{figure}[h]
+^^I\begin{lstlisting}[language=MLIR]
+q.circ @qft(%r, %n) {
+    ;; define custom QFT operation
+}
+
+q.call @qft(%r, %n) ;; apply QFT
+
+%qft = q.getval @qftoid,label,metadata},
+%qft_inv = q.adj %qft
+q.apply %qft_inv(%r, %n) ;; apply invQFT
+    \end{lstlisting}
+\end{figure}
+
+\begin{figure}[H]
+^^I\centering
+^^I\includegraphics[scale=16]{pics/fig02.jpg}
+^^I% 使用 cprotect 来允许在 caption 中使用 verb
+^^I\cprotect\caption{\small
+^^I^^I一个纠缠电路被从输入方言降低到优化方言。
+^^I^^I通过一个 affine 循环，量子比特 \verb|%qb|
+^^I^^I与大小为 \verb|%n| 的寄存器 \verb|%r| 相互纠缠。
+^^I^^I在优化方言中，循环结构利用循环携带的值来实现值语义。
+^^I}
+^^I\label{fig:03}
+\end{figure}
+
+% 打印参考文献
+\printbibliography[title=外文著录]
+
+\end{document}
