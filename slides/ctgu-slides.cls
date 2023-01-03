@@ -31,6 +31,19 @@
         \includegraphics[width=0.2\paperheight]{pics/logo.png}
     \end{tikzpicture}
 }
+%%%% hide title and author from sidebar
+\setbeamertemplate{sidebar \beamer@sidebarside}{
+    \beamer@tempdim=\beamer@sidebarwidth
+    \advance\beamer@tempdim by -6pt
+    \insertverticalnavigation{\beamer@sidebarwidth}
+    \vfill
+    \ifx\beamer@sidebarside\beamer@lefttext
+    \else
+      \usebeamercolor{normal text}
+      \llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}
+      \vskip2pt
+    \fi
+}
 
 % 加载一些宏包
 \RequirePackage{ctex}
