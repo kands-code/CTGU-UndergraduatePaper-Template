@@ -1,7 +1,7 @@
 % CTGU 外文翻译模板
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{ctgu-trans}
- [2022/12/14 v0.0.1 CTGU 外文翻译模板]
+[2022/12/14 v0.0.1 CTGU 外文翻译模板]
 
 % 文档定义 article
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
@@ -43,13 +43,13 @@
 %%% 存放图片目录
 \graphicspath{
     {figures/}
-    {figure/}
-    {pictures/}
-    {picture/}
-    {pic/}
-    {pics/}
-    {image/}
-    {images/}
+        {figure/}
+        {pictures/}
+        {picture/}
+        {pic/}
+        {pics/}
+        {image/}
+        {images/}
 }
 %% 表格
 \RequirePackage{array}
@@ -139,6 +139,9 @@
 \RequirePackage{nameref}
 \PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{naturalnames}{hyperref}
+%% nice matrix
+\RequirePackage{nicematrix}
+\NiceMatrixOptions{cell-space-limits = 1pt}
 %% fancyhdr
 \RequirePackage{fancyhdr}
 % \pagestyle{fancy}
@@ -156,6 +159,7 @@
     % citestyle=numeric-comp,
     % bibstyle=phys,
     sortlocale=zh_CN,
+    defernumbers=true,
     natbib=true,
     url=true,
     doi=true,
@@ -312,47 +316,47 @@
 % 标题格式
 \RequirePackage{titlesec}
 \titleformat{\section}[hang]
-    {\hei\zihao{-4}}
-    {\thesection.}
-    {1ex}
-    {\bfseries}
+{\hei\zihao{-4}}
+{\thesection.}
+{1ex}
+{\bfseries}
 \titleformat{\subsection}[hang]
-    {\hei\zihao{5}}
-    {\thesubsection.}
-    {1ex}
-    {\bfseries}
+{\hei\zihao{5}}
+{\thesubsection.}
+{1ex}
+{\bfseries}
 \titleformat{\subsubsection}[hang]
-    {\hei\zihao{5}}
-    {\thesubsubsection.}
-    {1ex}
-    {\bfseries}
+{\hei\zihao{5}}
+{\thesubsubsection.}
+{1ex}
+{\bfseries}
 \titlecontents{section}[0pt]{\vspace{2mm}\hei\zihao{4}}
-    {\thecontentslabel\hskip.5em}
-    {}
-    {\titlerule*[0.5pc]{.}\contentspage}
+{\thecontentslabel\hskip.5em}
+{}
+{\titlerule*[0.5pc]{.}\contentspage}
 \titlecontents{subsection}[30pt]{\hei\zihao{4}}
-    {\thecontentslabel\hskip.5em}
-    {}
-    {\titlerule*[0.5pc]{.}\contentspage}
+{\thecontentslabel\hskip.5em}
+{}
+{\titlerule*[0.5pc]{.}\contentspage}
 \titlecontents{subsubsection}[55pt]{\hei\zihao{4}}
-    {\thecontentslabel\hskip.5em}
-    {}
-    {\titlerule*[0.5pc]{.}\contentspage}
+{\thecontentslabel\hskip.5em}
+{}
+{\titlerule*[0.5pc]{.}\contentspage}
 
 % 图表设置
 \DeclareCaptionFont{hei}{\hei}
 \DeclareCaptionFont{wuhao}{\zihao{5}}
 \captionsetup[figure]{
-	format=hang,
-	labelsep=quad,
-	font={hei,wuhao,bf},
-	position=bottom,
+    format=hang,
+    labelsep=quad,
+    font={hei,wuhao,bf},
+    position=bottom,
 }
 \captionsetup[table]{
-	format=hang,
-	labelsep=quad,
-	font={hei,wuhao,bf},
-	position=top,
+    format=hang,
+    labelsep=quad,
+    font={hei,wuhao,bf},
+    position=top,
 }
 \floatstyle{plaintop}
 \restylefloat{table}
@@ -369,25 +373,25 @@
 %% list
 \setlist{
     % 列表顶端的垂直空白
-	topsep=0.3em,
+    topsep=0.3em,
     % 列表环境前面紧接着一个空白行时其顶端的额外垂直空白
-	partopsep=0pt,
+    partopsep=0pt,
     % 列表项之间的额外垂直空白
-	itemsep=0ex plus 0.1ex,
+    itemsep=0ex plus 0.1ex,
     % 列表项内的段落之间的垂直空白
-	parsep=0pt,
+    parsep=0pt,
     % 环境的左边界和列表之间的水平距离
-	leftmargin=1.5em,
+    leftmargin=1.5em,
     % 环境的右边界和列表之间的水平距离
-	rightmargin=0em,
+    rightmargin=0em,
     % 包含标签的盒子与列表项的第一行文本之间的间隔
-	labelsep=0.5em,
+    labelsep=0.5em,
     % 包含标签的盒子的正常宽度 若实际宽度更宽 则使用实际宽度
-	labelwidth=2em,
+    labelwidth=2em,
 }
-\setlist[itemize,1]{label=$\vcenter{\hbox{\large$\bullet$}}$} 
-\setlist[itemize,2]{label=$\vcenter{\hbox{\small$\blacksquare$}}$} 
-\setlist[itemize,3]{label=$\vcenter{\hbox{\small$\Diamondblack$}}$} 
+\setlist[itemize,1]{label=$\vcenter{\hbox{\large$\bullet$}}$}
+\setlist[itemize,2]{label=$\vcenter{\hbox{\small$\blacksquare$}}$}
+\setlist[itemize,3]{label=$\vcenter{\hbox{\small$\Diamondblack$}}$}
 \renewenvironment{quote}{
     \list{}{\leftmargin=4em\rightmargin=4em}\item[]
 }{\endlist}

@@ -1,7 +1,7 @@
 % CTGU Slides 模板
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{ctgu-slides}
- [2023/01/03 v0.1.0 CTGU Slides Template]
+[2023/01/03 v0.1.0 CTGU Slides Template]
 
 % 文档定义 beamer
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{beamer}}
@@ -39,9 +39,9 @@
     \vfill
     \ifx\beamer@sidebarside\beamer@lefttext
     \else
-      \usebeamercolor{normal text}
-      \llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}
-      \vskip2pt
+        \usebeamercolor{normal text}
+        \llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}
+        \vskip2pt
     \fi
 }
 
@@ -64,13 +64,13 @@
 %%% 存放图片目录
 \graphicspath{
     {figures/}
-    {figure/}
-    {pictures/}
-    {picture/}
-    {pic/}
-    {pics/}
-    {image/}
-    {images/}
+        {figure/}
+        {pictures/}
+        {picture/}
+        {pic/}
+        {pics/}
+        {image/}
+        {images/}
 }
 %% 表格
 \RequirePackage{array}
@@ -136,6 +136,9 @@
 \setlength\parindent{2em}
 %% 设置标题
 \RequirePackage{caption}
+%% nice matrix
+\RequirePackage{nicematrix}
+\NiceMatrixOptions{cell-space-limits = 1pt}
 %% 下划线
 \RequirePackage{ulem}
 \RequirePackage{calc}
@@ -148,8 +151,9 @@
     % citestyle=gb7714-2015ay,
     % bibstyle=gb7714-2015,
     sortlocale=zh_CN,
+    defernumbers=true,
     natbib=true,
-    url=true, 
+    url=true,
     doi=true,
     eprint=true
 ]{biblatex}
@@ -301,16 +305,16 @@
 \DeclareCaptionFont{hei}{\hei}
 \DeclareCaptionFont{wuhao}{\zihao{5}}
 \captionsetup[figure]{
-	format=hang,
-	labelsep=quad,
-	font={hei,wuhao,bf},
-	position=bottom,
+    format=hang,
+    labelsep=quad,
+    font={hei,wuhao,bf},
+    position=bottom,
 }
 \captionsetup[table]{
-	format=hang,
-	labelsep=quad,
-	font={hei,wuhao,bf},
-	position=top,
+    format=hang,
+    labelsep=quad,
+    font={hei,wuhao,bf},
+    position=top,
 }
 \floatstyle{plaintop}
 \restylefloat{table}
@@ -327,25 +331,25 @@
 %% list
 \setlist{
     % 列表顶端的垂直空白
-	topsep=0.3em,
+    topsep=0.3em,
     % 列表环境前面紧接着一个空白行时其顶端的额外垂直空白
-	partopsep=0pt,
+    partopsep=0pt,
     % 列表项之间的额外垂直空白
-	itemsep=0ex plus 0.1ex,
+    itemsep=0ex plus 0.1ex,
     % 列表项内的段落之间的垂直空白
-	parsep=0pt,
+    parsep=0pt,
     % 环境的左边界和列表之间的水平距离
-	leftmargin=1.5em,
+    leftmargin=1.5em,
     % 环境的右边界和列表之间的水平距离
-	rightmargin=0em,
+    rightmargin=0em,
     % 包含标签的盒子与列表项的第一行文本之间的间隔
-	labelsep=0.5em,
+    labelsep=0.5em,
     % 包含标签的盒子的正常宽度 若实际宽度更宽 则使用实际宽度
-	labelwidth=2em,
+    labelwidth=2em,
 }
-\setlist[itemize,1]{label=$\vcenter{\hbox{\large$\bullet$}}$} 
-\setlist[itemize,2]{label=$\vcenter{\hbox{\small$\blacksquare$}}$} 
-\setlist[itemize,3]{label=$\vcenter{\hbox{\small$\Diamondblack$}}$} 
+\setlist[itemize,1]{label=$\vcenter{\hbox{\large$\bullet$}}$}
+\setlist[itemize,2]{label=$\vcenter{\hbox{\small$\blacksquare$}}$}
+\setlist[itemize,3]{label=$\vcenter{\hbox{\small$\Diamondblack$}}$}
 \renewenvironment{quote}{
     \list{}{\leftmargin=4em\rightmargin=4em}\item[]
 }{\endlist}
